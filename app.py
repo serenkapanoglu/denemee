@@ -41,6 +41,7 @@ def search_cocktails(term):
     
     for cocktail in cocktails:
         processed_coctail = {}
+        processed_coctail['id'] = cocktail['idDrink']
         processed_coctail['name'] = cocktail['strDrink']
         processed_coctail['instructions'] = cocktail['strInstructions']
         processed_coctail['image'] = cocktail['strDrinkThumb']
@@ -167,3 +168,4 @@ def logout():
     session.pop(CURR_USER_KEY)
     flash("You have logged out successfully", "success")
     return redirect("/")
+
