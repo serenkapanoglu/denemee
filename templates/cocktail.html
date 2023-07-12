@@ -1,0 +1,19 @@
+{%extends 'base.html'%}
+
+
+
+{%block content%}
+<h2>{{ cocktail['name'] }}</h2>
+<p>{{ cocktail['instructions'] }}</p>
+
+<ul>
+    {% for ingredient, measure in cocktail['ingredients'] %}
+      <li>{{ measure }} - {{ ingredient }}</li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+<!-- Display additional cocktail information as desired -->
+
+   
+
+    {%endblock%} 
