@@ -39,10 +39,26 @@ def search_cocktails(term):
     cocktails = data["drinks"] if data["drinks"] else []
     processed_coctails=[]
     
+    
+    
     for cocktail in cocktails:
         processed_coctail = {}
         processed_coctail['id'] = cocktail['idDrink']
         processed_coctail['name'] = cocktail['strDrink']
+        processed_coctail['instructions'] = cocktail['strInstructions']
+        processed_coctail['image'] = cocktail['strDrinkThumb']
+        processed_coctail['ingredients'] = []
+        
+        for i in range(1,16):
+            ingredient_key = f'strIngredient{i}'
+            measure_key = f'strMeasure{i}'
+            
+            if cocktail[ingredient_key] and cocktail[measure_key]:
+                ingredient = cocktail[ingredient_key]
+                measure = cocktail[measure_key]
+                processed_coctail['ingredients'].append((ingredient, measure))
+        
+        processed_coctails.append(processed_coctail)
     
                 
     return render_template("search.html", term=term, cocktails=processed_coctails)
@@ -62,6 +78,15 @@ def random_cocktail():
 def cocktaill():
     # Logic to fetch the cocktail data, such as fetching a random cocktail
     response = requests.get("https://www.thecocktaildb.com/api/json/v1/1/random.php")
+    data = response.json()
+    cocktail = data["drinks"][0]
+    
+
+    return render_template("cocktail.html", cocktail=cocktail) 
+
+@app.route("/cocktail/<id>")
+def cocktail(id):
+    response = requests.get(f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={id}")
     data = response.json()
     cocktails = data["drinks"][0]
     processed_coctails=[]
@@ -87,12 +112,7 @@ def cocktaill():
 
     return render_template("cocktail.html", cocktail=processed_coctail) 
 
-@app.route("/cocktail/<id>")
-def cocktail(id):
-    response = requests.get(f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={id}")
-    data = response.json()
-    cocktail = data["drinks"][0]
-    return render_template("cocktail.html", cocktail=cocktail)
+   
 
 
 
@@ -175,5 +195,3 @@ def logout():
     session.pop(CURR_USER_KEY)
     flash("You have logged out successfully", "success")
     return redirect("/")
-
-
