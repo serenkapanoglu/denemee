@@ -1,19 +1,8 @@
-{%extends 'base.html'%}
+{%extends 'base.html'%} {%block content%}
+{{ cocktail['name'] }}
+{{ cocktail['instructions'] }}
 
-
-
-{%block content%}
-<h2>{{ cocktail['name'] }}</h2>
-<p>{{ cocktail['instructions'] }}</p>
-
-<ul>
-    {% for ingredient, measure in cocktail['ingredients'] %}
-      <li>{{ measure }} - {{ ingredient }}</li>
-    {% endfor %}
-  </ul>
+{% for ingredient, measure in cocktail['ingredients'] %}
+{{ measure }} - {{ ingredient }}
 {% endfor %}
-<!-- Display additional cocktail information as desired -->
-
-   
-
-    {%endblock%} 
+{%endblock%}
